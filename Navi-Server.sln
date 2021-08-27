@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navi-Server", "Navi-Server\Navi-Server.csproj", "{784B6511-9824-422D-96A3-0F7BA4D43788}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navi-Server-Test", "Navi-Server-Test\Navi-Server-Test.csproj", "{AEB81E18-BB2A-43B1-A49F-6183F6C04FC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{784B6511-9824-422D-96A3-0F7BA4D43788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{784B6511-9824-422D-96A3-0F7BA4D43788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{784B6511-9824-422D-96A3-0F7BA4D43788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB81E18-BB2A-43B1-A49F-6183F6C04FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB81E18-BB2A-43B1-A49F-6183F6C04FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB81E18-BB2A-43B1-A49F-6183F6C04FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB81E18-BB2A-43B1-A49F-6183F6C04FC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
