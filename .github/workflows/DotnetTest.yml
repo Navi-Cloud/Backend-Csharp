@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -12,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Setup MongoDB Container
+        run: docker-compose -f */docker-compose.yml up -d
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1.7.2
         with:
@@ -22,3 +23,5 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       - name: Test[With MSBuild configuration]
         run: dotnet test --no-restore --verbosity normal -p:CollectCoverage=true
+      - name: Destroy Docker-Compose MongoDB
+        run: docker-compose -f */docker-compose.yml down
