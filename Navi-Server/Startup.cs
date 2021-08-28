@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Navi_Server.Middleware;
 using Navi_Server.Repositories;
 using Navi_Server.Services;
 
@@ -30,6 +31,7 @@ namespace Navi_Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<JwtService>();
             services.AddSingleton<MongoContext>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
@@ -54,7 +56,7 @@ namespace Navi_Server
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
