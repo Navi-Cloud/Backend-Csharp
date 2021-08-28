@@ -41,54 +41,10 @@ namespace Navi_Server.Repositories
         /// </summary>
         /// <param name="toRegister">User to register</param>
         /// <returns>See <see cref="IUserRepository.RegisterUser"/> for more details.</returns>
-        public async Task<ExecutionResult<User>> RegisterUser(User toRegister)
+        public async Task<User> RegisterUser(User toRegister)
         {
-            try
-            {
-                await _mongoCollection.InsertOneAsync(toRegister);
-            }
-            catch (Exception superException)
-            {
-                // Handle error if required.
-                return HandleRegisterError(superException, toRegister);
-            }
-
-            return new ExecutionResult<User>
-            {
-                ResultType = ExecutionResultType.SUCCESS,
-                Value = toRegister
-            };
-        }
-        
-        /// <summary>
-        /// Handle <see cref="RegisterUser"/>'s exception if required. 
-        /// </summary>
-        /// <param name="superException">Master Exception[Supertype Exception]</param>
-        /// <param name="toRegister">User entity tried to register.</param>
-        /// <returns>See <see cref="IUserRepository.RegisterUser"/> for more details.</returns>
-        [ExcludeFromCodeCoverage]
-        private ExecutionResult<User> HandleRegisterError(Exception superException, User toRegister)
-        {
-            // When Error type is MongoWriteException
-            if (superException is MongoWriteException mongoWriteException)
-            {
-                // When Error Type is 'Duplicate Key'
-                if (mongoWriteException.WriteError.Category == ServerErrorCategory.DuplicateKey)
-                {
-                    return new ExecutionResult<User>
-                    {
-                        ResultType = ExecutionResultType.DuplicatedID,
-                        Message = $"Duplicated Email found: {toRegister.UserEmail}"
-                    };
-                } // Else -> goto Unknown Error.
-            }
-
-            // Unknown if exception is not MongoWriteException.
-            return new ExecutionResult<User>
-            {
-                ResultType = ExecutionResultType.Unknown,
-                Message = $"Unknown Error Occurred! : {superException.Message}"
-            };
+            await _mongoCollection.InsertOneAsync(toRegister);
+            return toRegister;
         }
     }
 }

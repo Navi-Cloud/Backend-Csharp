@@ -25,18 +25,13 @@ namespace Navi_Server_Test.Repositories
             DestroyDatabase();
         }
 
-        [Fact(DisplayName = "RegisterUser: RegisterUser should return DuplicatedID when duplicated indexes are found.")]
-        public async void Is_RegisterUser_Returns_DuplicatedId_UniqueIndex_Constraints()
+        [Fact(DisplayName = "RegisterUser: RegisterUser should throws MongoWriteException when duplicated id found.")]
+        public async void Is_RegisterUser_Throws_MongoWriteException_When_DuplicatedId()
         {
             // Setup
             await _collection.InsertOneAsync(_mockUser);
 
-            // Do
-            var result = await _userRepository.RegisterUser(_mockUser);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(ExecutionResultType.DuplicatedID, result.ResultType);
+            await Assert.ThrowsAsync<MongoWriteException>(() => _userRepository.RegisterUser(_mockUser));
         }
 
         [Fact(DisplayName = "RegisterUser: RegisterUser should return Unknown when unknown exception occurred.")]
@@ -53,9 +48,7 @@ namespace Navi_Server_Test.Repositories
             var result = await _userRepository.RegisterUser(_mockUser);
             
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(ExecutionResultType.SUCCESS, result.ResultType);
-            Assert.Equal(_mockUser, result.Value);
+            Assert.Equal(_mockUser, result);
         }
     }
 }
