@@ -50,5 +50,32 @@ namespace Navi_Server_Test.Repositories
             // Assert
             Assert.Equal(_mockUser, result);
         }
+
+        [Fact(DisplayName = "FindUserByEmailAsync: FindUserByEmailAsync should return null when entity is not found.")]
+        public async void Is_FindUserByEmailAsync_Returns_Null_When_Not_Found()
+        {
+            var result = await _userRepository.FindUserByEmailAsync("test");
+            
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact(DisplayName =
+            "FindUserByEmailAsync: FindUserByEmailAsync should return corresponding entity when exists.")]
+        public async void Is_FindUserByEmailAsync_Works_Well()
+        {
+            // Let
+            await _collection.InsertOneAsync(_mockUser);
+            
+            // Do
+            var result = await _userRepository.FindUserByEmailAsync(_mockUser.UserEmail);
+            
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(_mockUser.Id, result.Id);
+            Assert.Equal(_mockUser.UserEmail, result.UserEmail);
+            Assert.Equal(_mockUser.UserName, result.UserName);
+            Assert.Equal(_mockUser.UserPassword, result.UserPassword);
+        }
     }
 }

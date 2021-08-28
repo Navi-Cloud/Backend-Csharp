@@ -18,6 +18,11 @@ namespace Navi_Server.Exchange
         DuplicatedID,
         
         /// <summary>
+        /// When Login Failed
+        /// </summary>
+        LoginFailed,
+        
+        /// <summary>
         ///  When Unknown Error occurred.
         /// </summary>
         Unknown

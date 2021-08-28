@@ -7,6 +7,7 @@ using Moq;
 using Navi_Server_Test.Helper;
 using Navi_Server.Exchange;
 using Navi_Server.Models;
+using Navi_Server.Models.DTO;
 using Navi_Server.Repositories;
 using Navi_Server.Services;
 using Xunit;
@@ -17,12 +18,14 @@ namespace Navi_Server_Test.Services
     {
         private readonly IUserService _userService;
         private readonly Mock<IUserRepository> _mockUserRepository;
-        private readonly User _mockUser = new() {UserEmail = "kangdroid@testmail.com"};
+        private readonly Mock<IJwtService> _mockJwtService;
+        private readonly User _mockUser = new() {UserEmail = "kangdroid@testmail.com", UserPassword = ""};
         
         public UserServiceTest()
         {
             _mockUserRepository = new Mock<IUserRepository>();
-            _userService = new UserService(_mockUserRepository.Object);
+            _mockJwtService = new Mock<IJwtService>();
+            _userService = new UserService(_mockUserRepository.Object, _mockJwtService.Object);
         }
 
         private MongoWriteException CreateMongoException(ServerErrorCategory category)
@@ -99,6 +102,56 @@ namespace Navi_Server_Test.Services
             
             // Check
             Assert.Equal(ExecutionResultType.Unknown, result.ResultType);
+        }
+
+        [Fact(DisplayName =
+            "LoginUserAsync: LoginUserAsync should return Result type loginFailed when id is non-existent id.")]
+        public async void Is_LoginUserAsync_Returns_LoginFailed_When_Id_Not_Exists()
+        {
+            // Let
+            _mockUserRepository.Setup(a => a.FindUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: null);
+            
+            // Do
+            var result = await _userService.LoginUserAsync(new UserLoginRequest
+                {UserEmail = "_mockUser.UserEmail", UserPassword = ""});
+            
+            // Check
+            Assert.Equal(ExecutionResultType.LoginFailed, result.ResultType);
+        }
+        
+        [Fact(DisplayName =
+            "LoginUserAsync: LoginUserAsync should return Result type loginFailed when pw is wrong.")]
+        public async void Is_LoginUserAsync_Returns_LoginFailed_When_Pw_Is_Wrong()
+        {
+            // Let
+            _mockUserRepository.Setup(a => a.FindUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(_mockUser);
+            
+            // Do
+            var result = await _userService.LoginUserAsync(new UserLoginRequest
+                {UserEmail = _mockUser.UserEmail, UserPassword = "somewhat_wrong"});
+            
+            // Check
+            Assert.Equal(ExecutionResultType.LoginFailed, result.ResultType);
+        }
+
+        [Fact(DisplayName = "LoginUserAsync: LoginUserAsync should return jwt token well.")]
+        public async void Is_LoginUserAsync_Returns_Well()
+        {
+            // Let
+            _mockUserRepository.Setup(a => a.FindUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(_mockUser);
+            _mockJwtService.Setup(a => a.GenerateJwtToken(_mockUser))
+                .Returns("TestToken");
+            
+            // Do
+            var result = await _userService.LoginUserAsync(new UserLoginRequest
+                {UserEmail = _mockUser.UserEmail, UserPassword = ""});
+            
+            // Check
+            Assert.Equal(ExecutionResultType.SUCCESS, result.ResultType);
+            Assert.Equal("TestToken", result.Value);
         }
     }
 }

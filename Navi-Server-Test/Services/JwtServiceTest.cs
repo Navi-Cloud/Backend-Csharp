@@ -8,7 +8,7 @@ namespace Navi_Server_Test.Services
 {
     public class JwtServiceTest
     {
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
         private readonly User _mockUser = new User()
         {
             UserEmail = "kangdroid@test.com",
