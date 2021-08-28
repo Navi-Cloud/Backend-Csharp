@@ -11,11 +11,9 @@ namespace Navi_Server.Repositories
         /// </summary>
         /// <param name="toRegister">To-be-registered User Entity</param>
         /// <returns>
-        /// <para>ExecutionResult of User Entity.</para>
-        /// <para>Returns ExecutionResult.ResultType = DuplicatedId when duplicated indexes are found.</para>
-        /// <para>Returns ExecutionResult.ResultType = Unknown when un-handled exception occurred.</para>
-        /// <para>Returns ExecutionResult.ResultType = SUCCESS with corresponding saved user entity when Registering succeeds.</para>
+        /// <para>Registered User Entity when succeeds.</para>
+        /// <para>May throw MongoWriteException when write operation fails.</para>
         /// </returns>
-        public Task<ExecutionResult<User>> RegisterUser(User toRegister);
+        public Task<User> RegisterUser(User toRegister);
     }
 }
