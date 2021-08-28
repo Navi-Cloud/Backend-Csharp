@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Navi_Server.Models
+namespace Navi_Server.Models.DTO
 {
     [ExcludeFromCodeCoverage]
     public class ErrorResponseModel

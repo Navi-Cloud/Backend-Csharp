@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Navi_Server.Exchange;
 using Navi_Server.Models;
+using Navi_Server.Models.DTO;
 using Navi_Server.Services;
 
 namespace Navi_Server.Controllers
