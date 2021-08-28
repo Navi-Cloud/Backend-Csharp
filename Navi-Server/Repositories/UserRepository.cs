@@ -46,5 +46,16 @@ namespace Navi_Server.Repositories
             await _mongoCollection.InsertOneAsync(toRegister);
             return toRegister;
         }
+        
+        /// <summary>
+        /// <para>Implementation of <see cref="IUserRepository.FindUserByEmailAsync"/></para>
+        /// <para>See detail of this function on <see cref="IUserRepository.FindUserByEmailAsync"/></para>
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        public async Task<User> FindUserByEmailAsync(string userEmail)
+        {
+            return (await _mongoCollection.FindAsync(a => a.UserEmail == userEmail)).FirstOrDefault();
+        }
     }
 }

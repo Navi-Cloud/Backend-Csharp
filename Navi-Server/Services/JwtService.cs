@@ -9,7 +9,32 @@ using Navi_Server.Models;
 
 namespace Navi_Server.Services
 {
-    public class JwtService
+    public interface IJwtService
+    {
+        /// <summary>
+        /// Generate JWT Token from User Information+
+        /// </summary>
+        /// <param name="userInfo">Owner of JWT Token.</param>
+        /// <returns>JWT Token as string.</returns>
+        string GenerateJwtToken(User userInfo);
+
+        /// <summary>
+        /// <para>Get Validated Token</para>
+        /// <para>Validate plain token first, and return security token.</para>
+        /// </summary>
+        /// <param name="userToken">Plain JWT Token</param>
+        /// <returns>Validated JwtSecurityToken</returns>
+        JwtSecurityToken GetValidatedToken(string userToken);
+
+        /// <summary>
+        /// Get User Email[ID] from JWT TOken
+        /// </summary>
+        /// <param name="securityToken">JWT Security Token from <see cref="JwtService.GetValidatedToken"/>.</param>
+        /// <returns>User Email[ID]</returns>
+        string GetUserEmailFromToken(JwtSecurityToken securityToken);
+    }
+
+    public class JwtService : IJwtService
     {
         private readonly string _securityKey;
         private readonly string _tokenIssuer;

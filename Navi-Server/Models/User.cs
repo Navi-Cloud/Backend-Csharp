@@ -32,5 +32,10 @@ namespace Navi_Server.Models
         /// User's Password Information. Note this should be encrypted.
         /// </summary>
         public string UserPassword { get; set; } // TODO: Need to be encrypted.
+
+        public bool CheckPassword(string input)
+        {
+            return UserPassword == input;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using Navi_Server.Exchange;
 using Navi_Server.Models;
+using Navi_Server.Models.DTO;
 using Navi_Server.Repositories;
 
 namespace Navi_Server.Services
@@ -11,10 +12,12 @@ namespace Navi_Server.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;
         }
         
         /// <summary>
@@ -40,6 +43,32 @@ namespace Navi_Server.Services
             };
         }
         
+        /// <summary>
+        /// See <see cref="IUserService.LoginUserAsync"/> for more information.
+        /// </summary>
+        /// <param name="loginRequest"></param>
+        /// <returns></returns>
+        public async Task<ExecutionResult<string>> LoginUserAsync(UserLoginRequest loginRequest)
+        {
+            var user = await _userRepository.FindUserByEmailAsync(loginRequest.UserEmail);
+            var passwordVerified = user?.CheckPassword(loginRequest.UserPassword);
+            
+            if (passwordVerified is null or false)
+            {
+                return new ExecutionResult<string>
+                {
+                    ResultType = ExecutionResultType.LoginFailed,
+                    Message = "Login Failed! User Email or Password is wrong!"
+                };
+            }
+
+            return new ExecutionResult<string>
+            {
+                ResultType = ExecutionResultType.SUCCESS,
+                Value = _jwtService.GenerateJwtToken(user)
+            };
+        }
+
         /// <summary>
         /// Handle <see cref="RegisterUserAsync"/>'s exception if required. 
         /// </summary>

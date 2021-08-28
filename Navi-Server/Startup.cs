@@ -31,7 +31,7 @@ namespace Navi_Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<JwtService>();
+            services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<MongoContext>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();

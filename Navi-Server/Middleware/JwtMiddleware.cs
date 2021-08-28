@@ -10,9 +10,9 @@ namespace Navi_Server.Middleware
     public class JwtMiddleware
     {
         private readonly RequestDelegate _requestDelegate;
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
 
-        public JwtMiddleware(RequestDelegate requestDelegate, JwtService jwtService)
+        public JwtMiddleware(RequestDelegate requestDelegate, IJwtService jwtService)
         {
             _jwtService = jwtService;
             _requestDelegate = requestDelegate;
