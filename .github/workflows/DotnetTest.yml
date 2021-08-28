@@ -22,6 +22,6 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test[With MSBuild configuration]
-        run: dotnet test --no-restore --verbosity normal -p:CollectCoverage=true
+        run: dotnet test --no-restore --verbosity normal -p:CollectCoverage=true -p:Threshold=90
       - name: Destroy Docker-Compose MongoDB
         run: docker-compose -f */docker-compose.yml down

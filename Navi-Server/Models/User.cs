@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -6,6 +7,7 @@ namespace Navi_Server.Models
     /// <summary>
     /// User model description. All about users!
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class User
     {
         /// <summary>

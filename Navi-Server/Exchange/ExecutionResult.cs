@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Navi_Server.Exchange
 {
     /// <summary>
@@ -25,6 +27,7 @@ namespace Navi_Server.Exchange
     /// Execution Result Data Class. This will hold information of return value, failed reason, etc.
     /// </summary>
     /// <typeparam name="T">Result return type. If no return type, just set to object.</typeparam>
+    [ExcludeFromCodeCoverage]
     public class ExecutionResult<T>
     {
         /// <summary>
