@@ -23,6 +23,11 @@ namespace Navi_Server.Exchange
         LoginFailed,
         
         /// <summary>
+        /// When somewhat entity or information is not found.
+        /// </summary>
+        NotFound,
+        
+        /// <summary>
         ///  When Unknown Error occurred.
         /// </summary>
         Unknown
