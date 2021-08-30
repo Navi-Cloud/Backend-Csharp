@@ -13,11 +13,13 @@ namespace Navi_Server.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtService _jwtService;
+        private readonly IFileRepository _fileRepository;
 
-        public UserService(IUserRepository userRepository, IJwtService jwtService)
+        public UserService(IUserRepository userRepository, IJwtService jwtService, IFileRepository fileRepository)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
+            _fileRepository = fileRepository;
         }
         
         /// <summary>
@@ -35,6 +37,16 @@ namespace Navi_Server.Services
             {
                 return HandleRegisterError(superException, userRequest);
             }
+            
+            // Create Folder
+            var newFolderMetadata = new FileMetadata
+            {
+                FileOwnerEmail = userRequest.UserEmail,
+                IsFolder = true,
+                VirtualParentDirectory = "",
+                VirtualDirectory = "/"
+            };
+            await _fileRepository.CreateFolderAsync(newFolderMetadata);
 
             return new ExecutionResult<User>
             {
