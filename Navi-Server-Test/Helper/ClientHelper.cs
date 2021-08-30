@@ -12,7 +12,7 @@ namespace Navi_Server_Test.Helper
             string token)
         {
             httpClient.DefaultRequestHeaders.Clear();
-            // httpClient.DefaultRequestHeaders.Add("X-API-AUTH", token);
+            httpClient.DefaultRequestHeaders.Add("X-API-AUTH", token);
             var response = await httpClient.GetAsync(url);
             var jsonString = await response.Content.ReadAsStringAsync();
 
@@ -29,7 +29,7 @@ namespace Navi_Server_Test.Helper
         {
             // Add Token to header if exists.
             httpClient.DefaultRequestHeaders.Clear();
-            // httpClient.DefaultRequestHeaders.Add("X-API-AUTH", token);
+            httpClient.DefaultRequestHeaders.Add("X-API-AUTH", token);
 
             // Create Request Body
             var requestContent = new StringContent(

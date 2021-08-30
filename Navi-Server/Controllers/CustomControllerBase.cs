@@ -21,5 +21,14 @@ namespace Navi_Server.Controllers
                     {Message = "Unknown Error occurred!", TraceId = HttpContext.TraceIdentifier})
             };
         }
+        
+        protected ErrorResponseModel GetErrorResponseModel(string message)
+        {
+            return new ErrorResponseModel
+            {
+                Message = message,
+                TraceId = HttpContext.TraceIdentifier
+            };
+        }
     }
 }
