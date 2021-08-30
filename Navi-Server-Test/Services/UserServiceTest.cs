@@ -19,13 +19,15 @@ namespace Navi_Server_Test.Services
         private readonly IUserService _userService;
         private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly Mock<IJwtService> _mockJwtService;
+        private readonly Mock<IFileRepository> _mockFileRepository;
         private readonly User _mockUser = new() {UserEmail = "kangdroid@testmail.com", UserPassword = ""};
         
         public UserServiceTest()
         {
             _mockUserRepository = new Mock<IUserRepository>();
             _mockJwtService = new Mock<IJwtService>();
-            _userService = new UserService(_mockUserRepository.Object, _mockJwtService.Object);
+            _mockFileRepository = new Mock<IFileRepository>();
+            _userService = new UserService(_mockUserRepository.Object, _mockJwtService.Object, _mockFileRepository.Object);
         }
 
         private MongoWriteException CreateMongoException(ServerErrorCategory category)
