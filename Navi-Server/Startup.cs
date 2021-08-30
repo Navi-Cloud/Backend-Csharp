@@ -34,6 +34,9 @@ namespace Navi_Server
             services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<MongoContext>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IFileRepository, FileRepository>();
+
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IUserService, UserService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
