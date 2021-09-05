@@ -13,6 +13,7 @@ namespace Navi_Server_Test.Helper
             {
                 ConnectionStrings = new 
                 {
+                    MongoProduction = "NO",
                     MongoConnection = "mongodb://root:testPassword@localhost:27017",
                     MongoDbName = Guid.NewGuid().ToString()
                 },

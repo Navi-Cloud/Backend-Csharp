@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
@@ -20,7 +21,14 @@ namespace Navi_Server.Repositories
         
         public MongoContext(IConfiguration configuration)
         {
-            _MongoClient = new MongoClient(configuration.GetConnectionString("MongoConnection"));
+            var connectionString = configuration.GetConnectionString("MongoConnection");
+            var settings = MongoClientSettings.FromConnectionString(connectionString);
+
+            if (configuration.GetConnectionString("MongoProduction") == "YES")
+            {
+                settings.SslSettings = new SslSettings {EnabledSslProtocols = SslProtocols.Tls12};
+            }
+            _MongoClient = new MongoClient(settings);
             _MongoDatabase = _MongoClient.GetDatabase(configuration.GetConnectionString("MongoDbName"));
         }
     }
